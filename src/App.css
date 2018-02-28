@@ -1,28 +1,28 @@
-.App {
+.container {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.dropzone {
+  margin: 0 auto;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
+  padding: 50px 25px;
+  width: 200px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.rejectedDrop {
+  border-color: red;
 }
 
-.App-title {
-  font-size: 1.5em;
+.acceptDrop {
+  border-color: #00FF00;
 }
 
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.preview {
+  margin: 20px;
+  max-width: 200px;
 }
