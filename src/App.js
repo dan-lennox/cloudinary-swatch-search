@@ -16,7 +16,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-//add a drop zone
-//http://matkl.github.io/average-color/

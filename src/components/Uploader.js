@@ -1,27 +1,34 @@
 import React, { Component } from 'react';
 //import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
+import AverageColour from './AverageColour';
 
 class Uploader extends Component {
 
-  state = { preview: null };
+  state = {
+    preview: null,
+    loadedImage: null
+  };
 
   handleDrop([{ preview }]) {
-    this.setState({ preview });
+    this.setState({ previewUrl: preview });
   }
 
   renderPreview() {
-    if (this.state.preview) {
+    if (this.state.previewUrl) {
       return (
-        <img src={this.state.preview} alt="Preview" className="preview"/>
+        <img src={this.state.previewUrl} alt="Preview" id="preview" onLoad={this.previewImageLoaded.bind(this)} />
       );
     }
 
     return null;
   }
 
-  render() {
+  previewImageLoaded() {
+    this.setState({ loadedImage: document.getElementById('preview') });
+  }
 
+  render() {
     return (
       <section className="section">
         <p className="blue-text">Upload an image to retrieve images with a similar average color from Cloudinary.</p>
@@ -35,24 +42,13 @@ class Uploader extends Component {
         >
           Drag a swatch image here or click to upload.
         </Dropzone>
-        { this.renderPreview() }
+        <section className="section colour-display">
+          { this.renderPreview() }
+          <AverageColour image={ this.state.loadedImage } />
+        </section>
       </section>
     );
   }
 }
 
-// Using object destructuring.
-// function mapStateToProps({ auth }) {
-//   // Auth is already equal to { auth: auth }, so we can just return auth.
-//   return { auth };
-//   //return { auth: auth };
-// }
-
-// Regular version
-// function mapStateToProps(state) {
-//   return { auth: state.auth };
-// }
-
 export default Uploader;
-
-//export default connect(mapStateToProps)(Header);

@@ -22,7 +22,34 @@
   border-color: #00FF00;
 }
 
-.preview {
-  margin: 20px;
+.colour-display {
+  display: flex;
+  height: 200px;
+  justify-content: center;
+}
+
+#preview {
+  margin-right: 1rem;
   max-width: 200px;
+  text-align: left;
+}
+
+.average-colour-display {
+
+}
+
+.average-colour-display ul li {
+  float: left;
+}
+
+#average-color {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 1rem;
+}
+
+.average-colour-display h5 {
+  text-align: left;
+  margin-top: 0;
 }
