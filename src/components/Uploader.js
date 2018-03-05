@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import AverageColour from './AverageColour';
+import * as actions from '../actions';
 
 class Uploader extends Component {
 
   state = {
-    preview: null,
-    loadedImage: null
+    preview: null
   };
 
   handleDrop([{ preview }]) {
@@ -25,10 +25,11 @@ class Uploader extends Component {
   }
 
   previewImageLoaded() {
-    this.setState({ loadedImage: document.getElementById('preview') });
+    this.props.setLoadedImg(document.getElementById('preview'));
   }
 
   render() {
+
     return (
       <section className="section">
         <p className="blue-text">Upload an image to retrieve images with a similar average color from Cloudinary.</p>
@@ -44,11 +45,19 @@ class Uploader extends Component {
         </Dropzone>
         <section className="section colour-display">
           { this.renderPreview() }
-          <AverageColour image={ this.state.loadedImage } />
+          <AverageColour />
+        </section>
+        <section>
+          <div>{ this.props.avgColour && this.props.avgColour.r }</div>
         </section>
       </section>
     );
   }
 }
 
-export default Uploader;
+// Using object destructuring.
+function mapStateToProps({ avgColour, loadedImg }) {
+  return { avgColour, loadedImg };
+}
+
+export default connect(mapStateToProps, actions)(Uploader);

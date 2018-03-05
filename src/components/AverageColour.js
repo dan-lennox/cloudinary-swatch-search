@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+import * as _ from 'lodash';
 
 class AverageColour extends Component {
+
+  // React lifecycle method.
+  componentDidUpdate(prevProps, prevState) {
+
+    // This is re-calculating the colour on EVERY update... not ideal.
+    const avgColour = this.calculateAverageColour();
+    if (!this.props.avgColour || !_.isEqual(this.props.avgColour, avgColour)) {
+      this.props.setAvgColour(avgColour);
+    }
+  }
 
   /**
    * Credit: http://matkl.github.io/average-color/
@@ -8,7 +21,11 @@ class AverageColour extends Component {
    * @return {{r: number, g: number, b: number}}
    */
   calculateAverageColour() {
-    const img =  this.props.image;
+    if (!this.props.loadedImg) {
+      return;
+    }
+
+    const img =  this.props.loadedImg.img;
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -39,9 +56,11 @@ class AverageColour extends Component {
 
   renderAverageColour() {
 
-    //this.renderAverageColour();
-    const avgColour = this.calculateAverageColour();
-    const rgbString = `rgb(${avgColour.r}, ${avgColour.g}, ${avgColour.b})`;
+    if (!this.props.avgColour) {
+      return;
+    }
+
+    const rgbString = `rgb(${this.props.avgColour.r}, ${this.props.avgColour.g}, ${this.props.avgColour.b})`;
 
     return [
       <h5 key="1">Average Colour</h5>,
@@ -52,15 +71,19 @@ class AverageColour extends Component {
     ];
   }
 
-
   render() {
 
     return (
       <div className=" average-colour-display">
-        { this.props.image && this.renderAverageColour() }
+        { this.props.loadedImg && this.renderAverageColour() }
       </div>
     );
   }
 }
 
-export default AverageColour;
+// Using object destructuring.
+function mapStateToProps({ avgColour, loadedImg }) {
+  return { avgColour, loadedImg };
+}
+
+export default connect(mapStateToProps, actions)(AverageColour);
